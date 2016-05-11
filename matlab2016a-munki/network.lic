@@ -1,0 +1,8 @@
+## Use this format for a single license server
+SERVER your-matlab-license.server.example.com SERVERMACADDR 1705
+USE_SERVER
+## Use this format for a redundant license server
+SERVER your-matlab-license.server0.example.com ANY 1705
+SERVER your-matlab-license.server1.example.com ANY 1705
+SERVER your-matlab-license.server2.example.com ANY 1705
+USE_SERVER 

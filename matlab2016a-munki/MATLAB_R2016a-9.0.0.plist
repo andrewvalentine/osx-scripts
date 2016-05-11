@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>autoremove</key>
+	<false/>
+	<key>catalogs</key>
+	<array>
+		<string>testing</string>
+	</array>
+	<key>category</key>
+	<string>Programming</string>
+	<key>description</key>
+	<string>A multi-paradigm numerical computing environment and fourth-generation programming language, MATLAB allows matrix manipulations, plotting of functions and data, implementation of algorithms, creation of user interfaces, and interfacing with programs written in other languages, including C, C++, Java, Fortran and Python. This package installs a network-licensed version of MATLAB R2016a.</string>
+	<key>developer</key>
+	<string>MathWorks</string>
+	<key>display_name</key>
+	<string>Matlab R2016a</string>
+	<key>icon_name</key>
+	<string>MATLAB_R2014a.png</string>
+	<key>installer_item_location</key>
+	<string>apps/Matlab/Matlab-R2016a-installer-files.dmg</string>
+	<key>installer_type</key>
+	<string>copy_from_dmg</string>
+	<key>installs</key>
+	<array>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>com.mathworks.matlab.2016</string>
+			<key>CFBundleVersion</key>
+			<string>9.0.0</string>
+			<key>minimum_update_version</key>
+			<string>9.0.0</string>
+			<key>minosversion</key>
+			<string>10.10</string>
+			<key>path</key>
+			<string>/Applications/MATLAB_R2016a.app</string>
+			<key>type</key>
+			<string>application</string>
+			<key>version_comparison_key</key>
+			<string>CFBundleVersion</string>
+		</dict>
+	</array>
+	<key>items_to_copy</key>
+	<array>
+		<dict>
+			<key>destination_path</key>
+			<string>/tmp</string>
+			<key>group</key>
+			<string>admin</string>
+			<key>mode</key>
+			<string>go-w</string>
+			<key>source_item</key>
+			<string>R2016a_maci64.iso</string>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<dict>
+			<key>destination_path</key>
+			<string>/tmp</string>
+			<key>group</key>
+			<string>admin</string>
+			<key>mode</key>
+			<string>go-w</string>
+			<key>source_item</key>
+			<string>installer_input.txt</string>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<dict>
+			<key>destination_path</key>
+			<string>/tmp</string>
+			<key>group</key>
+			<string>admin</string>
+			<key>mode</key>
+			<string>go-w</string>
+			<key>source_item</key>
+			<string>network.lic</string>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<dict>
+			<key>destination_path</key>
+			<string>/tmp</string>
+			<key>group</key>
+			<string>admin</string>
+			<key>mode</key>
+			<string>go-w</string>
+			<key>source_item</key>
+			<string>1374124.zip</string>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+	</array>
+	<key>name</key>
+	<string>MATLAB_R2016a</string>
+	<key>postinstall_script</key>
+	<string>#!/bin/bash
+## mount the volume created by Matlab
+/usr/bin/hdiutil mount /tmp/R2016a_maci64.iso
+## run the installer
+/Volumes/MATLAB_R2016a/install -inputFile /tmp/installer_input.txt
+## Apply BugFix 1374124
+/bin/cp /tmp/1374124.zip /Applications/MATLAB_R2016a.app/
+/usr/bin/unzip -o /Applications/MATLAB_R2016a.app/1374124.zip -d /Applications/MATLAB_R2016a.app/
+/bin/rm -f /Applications/MATLAB_R2016a.app/1374124.zip
+## unmount
+/usr/bin/hdiutil unmount -force /Volumes/MATLAB_R2016a
+## remove tmp files
+/bin/rm -f /tmp/R2016a_maci64.iso /tmp/installer_input.txt /tmp/network.lic /tmp/1374124.zip
+## modify CFBundleIdentifier
+/usr/bin/plutil -replace CFBundleIdentifier -string com.mathworks.matlab.2016 /Applications/MATLAB_R2016a.app/Contents/Info.plist
+exit 0</string>
+	<key>uninstall_method</key>
+	<string>uninstall_script</string>
+	<key>uninstall_script</key>
+	<string>#!/bin/sh
+/bin/rm -rf /Applications/MATLAB_R2016a.app</string>
+	<key>uninstallable</key>
+	<true/>
+	<key>version</key>
+	<string>9.0.0</string>
+</dict>
+</plist>
