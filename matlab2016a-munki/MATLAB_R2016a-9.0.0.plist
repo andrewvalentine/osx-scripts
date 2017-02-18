@@ -25,20 +25,18 @@
 	<key>installs</key>
 	<array>
 		<dict>
-			<key>CFBundleIdentifier</key>
-			<string>com.mathworks.matlab.2016</string>
-			<key>CFBundleVersion</key>
-			<string>9.0.0</string>
-			<key>minimum_update_version</key>
-			<string>9.0.0</string>
-			<key>minosversion</key>
-			<string>10.10</string>
 			<key>path</key>
-			<string>/Applications/MATLAB_R2016a.app</string>
-			<key>type</key>
-			<string>application</string>
-			<key>version_comparison_key</key>
-			<string>CFBundleVersion</string>
+            <string>/Applications/MATLAB_R2016a.app/appdata/version.xml</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.mathworks.matlab</string>
+            <key>CFBundleVersion</key>
+            <string>9.0.0</string>
+            <key>minimum_update_version</key>
+            <string>9.0.0</string>
+            <key>minosversion</key>
+            <string>10.10</string>
+            <key>type</key>
+            <string>file</string>
 		</dict>
 	</array>
 	<key>items_to_copy</key>
@@ -108,8 +106,6 @@
 /usr/bin/hdiutil unmount -force /Volumes/MATLAB_R2016a
 ## remove tmp files
 /bin/rm -f /tmp/R2016a_maci64.iso /tmp/installer_input.txt /tmp/network.lic /tmp/1374124.zip
-## modify CFBundleIdentifier
-/usr/bin/plutil -replace CFBundleIdentifier -string com.mathworks.matlab.2016 /Applications/MATLAB_R2016a.app/Contents/Info.plist
 exit 0</string>
 	<key>uninstall_method</key>
 	<string>uninstall_script</string>

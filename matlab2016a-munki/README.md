@@ -16,7 +16,6 @@ Once complete, you will have a package that deploys via Munki as follows:
 * Unpacks the required files to /tmp.  
 * Uses the postinstall script to execute a silent install.
 * Uses the postinstall script to apply bugfix 1374214.
-* Uses the postinstall script to modify the CFBundleIdentifier in $MATLAB.app/Contents/Info.plist. This avoids pkg receipt conflicts, and therefore allows multiple version of Matlab to be installed on a given client.
 
 ###[Pre-requisites](id:prereqs)
 
@@ -30,7 +29,7 @@ Once complete, you will have a package that deploys via Munki as follows:
 * You should have downloaded the bugfix .zip as per the [Pre-requisites](#anchor1). Move this to the cloned directory, changing the name to something more logical:  
 ```$ mv /path/to/downloaded/bugfix.zip /path/to/osx-scripts/matlab2016a-munki/1374214.zip``` 
 * Copy your latest MATLAB installer ISO into this directory. In this case it is `R2016a_maci64.iso`
-* Modify `installer_input.txt` to suit your environment. As a minimum you will need to enter your File Installation Key
+* Modify `installer_input.txt` to suit your environment. As a minimum you will need to enter your File Installation Key (FIK).
 * Modify `network.lic` to suit your environment.
 * Make `make-matlab-dmg.sh` executable:  
 ```$ chmod +x make-matlab-dmg.sh```
@@ -42,19 +41,18 @@ Once complete, you will have a package that deploys via Munki as follows:
 * Set appropriate permissions:  
 ```$ chmod 744 /path/to/munki_repo/pkgs/apps/matlab/Matlab-R2016a-installer-files.dmg```  
 * Copy the pkginfo to your munki_repo:  
-```$ cp MATLAB-R2016a-8.5.0.plist /path/to/munki_repo/pkgsinfo/apps/matlab/```
+```$ cp MATLAB-R2016a-9.0.0.plist /path/to/munki_repo/pkgsinfo/apps/matlab/```
 * Set appropriate permissions:  
-```$ chmod 644 /path/to/munki_repo/pkgsinfo/apps/matlab/MATLAB-R2016a-8.5.0.plist```
+```$ chmod 644 /path/to/munki_repo/pkgsinfo/apps/matlab/MATLAB-R2016a-9.0.0.plist```
 * Run makecatalogs:  
 ```$ makecatalogs```  
 
 ###[Notes on the pkginfo](id:pkginfo)  
 
-* The `CFBundleVersion` can be determined via `makepkginfo` on an installed copy of Matlab.
-* By default, Mathworks' `CFBundleIdentifier` in any given version of Matlab is `com.mathworks.matlab`. This causes conflicts when deploying multiple versions of Matlab. For example, let's say you have MATLAB_R2013a and MATLAB_R2014a available via Managed Software Center. If a user installs MATLAB_R2014a, the app will install with the identifier `com.mathworks.matlab`. Managed Software Center will then report that both 2013 and 2014 are installed, and the user will not be able to install MATLAB_R2013a.
-* You must therefore configure your install package to modify the `CFBundleIdentifier`. This will enable your clients to differentiate between the versions you have made available. You should do this in the following 2 ways:
-* This identifier should be set in the `installs` array.
-* The client side identifer should also be modified using `plutil` in the `postinstall` script.
+* If needed, the `CFBundleVersion` can be determined via `makepkginfo` on an installed copy of Matlab.
+* In my organization, making multiple versions of MATLAB available is essential. Different research groups often require specific versions of the application, so we need to ensure that Munki knows how to present different versions of MATLAB via Managed Software Center.
+* To do this, we need to modify the ```installs``` array to determine installation status via the ```path``` and ```file``` parameters.
+* You can use any path within the MATLAB_R2016a.app bundle, In this example, I use ```/Applications/MATLAB_R2016a.app/appdata/version.xml```.
 
 ###[Further info](id:furtherinfo)
 
